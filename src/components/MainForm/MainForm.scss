@@ -1,0 +1,48 @@
+@import '../../sass/palette.scss';
+
+.mainContainer {
+  height: calc(100% - 100px);
+  margin: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.form {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  .inputContainer {
+    margin: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    button {
+      margin-left: 5px;
+    }
+  }
+
+  input {
+    width: 200px !important;
+    height: 50px;
+    font-size: 26px;
+
+    &:hover, &:focus {
+      border-color: $shadow-ping;
+    }
+
+    &:focus {
+      outline-color: $shadow-ping;
+      box-shadow: none !important;
+    }
+  }
+
+
+}

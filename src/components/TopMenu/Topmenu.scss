@@ -1,0 +1,20 @@
+@import '../../sass/palette.scss';
+
+.topmenu {
+    border: 0;
+    border-bottom: 1px solid $yello;
+    box-shadow: none;
+    height: 64px;
+    z-index: 0;
+    box-shadow: 0px 7px 5px 0px $shadow-ping;
+    background: $yello;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    li{
+      height: 64px;
+      line-height: 64px;
+      color: $green !important;
+    }
+};
