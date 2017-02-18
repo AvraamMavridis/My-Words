@@ -1,4 +1,21 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
-  "plugins": [["import", { "libraryName": "antd", "style": "css" }]]
+    "sourceMaps": true,
+    "presets": [
+        "es2015",
+        "stage-0",
+        "react"
+    ],
+    "plugins": [
+        [
+          "import",
+          {
+            "libraryName": "antd",
+            "style": "css"
+          }
+        ],
+    ["transform-runtime", {
+      "polyfill": true,
+      "regenerator": true
+    }]
+    ]
 }

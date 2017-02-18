@@ -18,9 +18,11 @@ const pagination = {
 
 class WordsTable extends Component {
   render() {
+    const words = this.props.words.map((word, i) => ({ ...word, key: i}));
+
     return (
       <div className={ styles.tableContainer }>
-        <Table columns={columns} dataSource={this.props.words} pagination={ pagination } />
+        <Table columns={columns} dataSource={words} pagination={ pagination } />
       </div>
     );
   }

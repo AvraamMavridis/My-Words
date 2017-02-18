@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Icon, Input, Button} from 'antd';
 import TranslateService from '../../services/TranslateService';
+import DBService from '../../services/DBService';
 import WordsTable from '../WordsTable/WordsTable';
 const FormItem = Form.Item;
 import styles from './MainForm.scss';
@@ -17,16 +18,26 @@ export default class MainForm extends Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
+
+  async componentWillMount() {
+    try {
+      const wordsDoc = await DBService.get();
+      this.setState({ words: wordsDoc.words });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   onChangeHandler(e){
     this.setState({ word: e.nativeEvent.target.value });
   }
 
-  onClickHandler() {
-    TranslateService.getTranslation(this.state.word)
-      .then((data) => {
-        this.state.words.push({ original: this.state.word, translation: data.text[0] });
-        this.setState({ words: this.state.words.slice(), word: '' } );
-      })
+  async onClickHandler() {
+    const data = await TranslateService.getTranslation(this.state.word)
+    this.state.words.push({ original: this.state.word, translation: data.text[0] });
+    this.setState({ words: this.state.words.slice(), word: '' } );
+
+    const save = await DBService.save({ _id: 'words', words: this.state.words.slice() });
   }
 
   render() {
