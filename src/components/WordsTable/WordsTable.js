@@ -12,13 +12,38 @@ const columns = [{
   key: 'translation',
 }];
 
-const pagination = {
-  defaultPageSize: 5
-}
-
 class WordsTable extends Component {
+
+  constructor(){
+    super();
+    this.state = {
+      defaultPageSize: Math.ceil((window.innerHeight - 300) / 50),
+      pageSize: Math.ceil((window.innerHeight - 300) / 50)
+    }
+    this.setPagination = this.setPagination.bind(this);
+  }
+
+  setPagination(){
+    this.setState({ pageSize: Math.ceil((window.innerHeight - 300) / 50) });
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.setPagination);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setPagination);
+  }
+
   render() {
     const words = this.props.words.map((word, i) => ({ ...word, key: i}));
+
+    const pagination = {
+      defaultPageSize: this.state.defaultPageSize,
+      pageSize: this.state.pageSize > 0 ? this.state.pageSize : 1
+    }
+
+    console.log(pagination);
 
     return (
       <div className={ styles.tableContainer }>

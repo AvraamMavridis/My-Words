@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Menu, Icon } from 'antd';
+import { Link } from 'react-router'
 import styles from './TopMenu.scss';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -28,10 +29,11 @@ class TopMenu extends Component {
         mode="horizontal"
       >
         <Menu.Item key="home">
-          <Icon type="home" />Home
+          <Icon type="home" /><Link to={'/'}>Home</Link>
         </Menu.Item>
         <Menu.Item key="book">
-          <Icon type="book" />Words
+          <Icon type="book" />
+          <Link to={'/mywords'}>Words</Link>
         </Menu.Item>
       </Menu>
     );

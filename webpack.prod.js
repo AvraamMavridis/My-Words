@@ -1,15 +1,18 @@
-var Webpack = require('webpack');
 var path = require('path');
+var webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var DefinePlugin = new Webpack.DefinePlugin({
+var DefinePlugin = new webpack.DefinePlugin({
   'process.env': {
     NODE_ENV: JSON.stringify('production'),
   },
 });
-var UglifyPlugin = new Webpack.optimize.UglifyJsPlugin({ compress: { warnings: false }});
-var CommonChunksPlugin = new Webpack.optimize.CommonsChunkPlugin({ names: ['vendor', 'manifest']});
-const ExtractText = new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true});
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+var CommonChunksPlugin = new webpack.optimize.CommonsChunkPlugin({ names: ['vendor', 'manifest']});
+const combineLoaders = require('webpack-combine-loaders');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const OfflinePlugin = require('offline-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BabiliPlugin = new (require('babili-webpack-plugin'))();
 
 
@@ -22,7 +25,7 @@ module.exports = (env) => ({
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/dist/'
+    publicPath: '/'
   },
   module: {
     loaders: [
@@ -49,7 +52,26 @@ module.exports = (env) => ({
       }
     ]
   },
-  plugins: [ExtractText, DefinePlugin, BabiliPlugin],
+  plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: path.join(__dirname, 'src/service.js'),
+          to: path.join(__dirname, 'dist/service.js'),
+        }
+      ]),
+      new HtmlWebpackPlugin({template: './index.html'}),
+      new webpack.HotModuleReplacementPlugin(),
+      new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true}),
+      BabiliPlugin,
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: 'webpack-report.html',
+        openAnalyzer: false,
+        generateStatsFile: true,
+        statsFilename: 'webpack-stats.json',
+        logLevel: 'info'
+      }),
+  ],
   'resolve': {
     'alias': {
       'react': 'preact-compat',

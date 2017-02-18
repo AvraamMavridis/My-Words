@@ -3,54 +3,155 @@ import {Form, Icon, Input, Button} from 'antd';
 import TranslateService from '../../services/TranslateService';
 import DBService from '../../services/DBService';
 import WordsTable from '../WordsTable/WordsTable';
+import NetworkService from '../../services/NetworkService';
+import TopMenu from '../TopMenu/TopMenu';
+import uniqBy from 'lodash.uniqby';
 const FormItem = Form.Item;
 import styles from './MainForm.scss';
 
+/**
+ * Main Form Component
+ *
+ * @export
+ * @class MainForm
+ * @extends {Component}
+ */
 export default class MainForm extends Component {
 
+  /**
+   * Creates an instance of MainForm.
+   *
+   * @memberOf MainForm
+   */
   constructor(){
     super();
     this.state = {
       word: '',
-      words: []
+      words: [],
+      isOnline: true
     }
-    this.onClickHandler = this.onClickHandler.bind(this);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
+  /**
+   * Listen to network connection changes
+   * onMount and update the state
+   *
+   * @memberOf MainForm
+   */
+  async componentDidMount(){
+    NetworkService.subscribe(isOnline => {
+      if(this.state.isOnline !== isOnline){
+        this.setState({ isOnline });
+      }
+    });
+  }
 
-  async componentWillMount() {
+  /**
+   * On connectivity status change update the words
+   * that have not been translate
+   *
+   * @param {object} nextProps
+   * @param {object} nextState
+   *
+   * @memberOf MainForm
+   */
+  async componentWillUpdate(nextProps, nextState) {
+    if(!this.state.isOnline && nextState.isOnline){
+      const wordsToTranslate = this.state.words.filter(w => w.translation === '-');
+      const promises = wordsToTranslate.map(w => TranslateService.getTranslation(w.original));
+      const data = await Promise.all(promises)
+      wordsToTranslate.forEach((w,i) => {
+        w.translation = data[i].text[0];
+      })
+      let newWords = this.state.words.filter(w => w.translation !== '-');
+      newWords = newWords.concat(wordsToTranslate);
+      this.setState({ words: newWords });
+    }
+  }
+
+  /**
+   * Translate the input
+   *
+   * @memberOf MainForm
+   */
+  async translateInput(){
+    if(!this.state.word) return;
+    let translation;
     try {
-      const wordsDoc = await DBService.get();
-      this.setState({ words: wordsDoc.words });
+      const data = await TranslateService.getTranslation(this.state.word)
+      translation = data.text[0];
     } catch (error) {
-      console.error(error);
+      translation = '-'
+    } finally {
+      this.state.words.push({ original: this.state.word, translation });
+      this.setState({ words: this.state.words, word: '' });
+
+      // Save words to db
+      const data = await DBService.get();
+      let words = this.state.words.filter(w => w.translation !== '-');
+      words = uniqBy(words.concat(data.words), 'original');
+      DBService.save({ words, _id: 'words' });
     }
   }
 
+  /**
+   * Set state on input change
+   *
+   * @param {object} e
+   *
+   * @memberOf MainForm
+   */
   onChangeHandler(e){
     this.setState({ word: e.nativeEvent.target.value });
   }
 
-  async onClickHandler() {
-    const data = await TranslateService.getTranslation(this.state.word)
-    this.state.words.push({ original: this.state.word, translation: data.text[0] });
-    this.setState({ words: this.state.words.slice(), word: '' } );
-
-    const save = await DBService.save({ _id: 'words', words: this.state.words.slice() });
+  /**
+   * On ENTER press translate input
+   *
+   * @param {object} e
+   *
+   * @memberOf MainForm
+   */
+  onKeyPress(e){
+    if(e.key === 'Enter'){
+      this.translateInput()
+    }
   }
 
+  /**
+   * On click translate input
+   *
+   *
+   * @memberOf MainForm
+   */
+  onClickHandler() {
+    this.translateInput();
+  }
+
+  /**
+   * Render MainForm
+   *
+   * @returns {JSX}
+   *
+   * @memberOf MainForm
+   */
   render() {
     return (
+      <span>
+      <TopMenu />
       <div className={ styles.mainContainer }>
       <Form className={ styles.form } inline onSubmit={this.handleSubmit}>
         <div className={ styles.inputContainer }>
-          <Input onChange={ this.onChangeHandler } value={ this.state.word } />
-          <Button onClick={ this.onClickHandler }>Add</Button>
+          <Input onKeyPress={ e => this.onKeyPress(e)}
+                 onChange={ e => this.onChangeHandler(e) }
+                 value={ this.state.word }
+          />
+          <Button onClick={ () => this.onClickHandler() }>Add</Button>
         </div>
         <WordsTable words={ this.state.words } />
       </Form>
       </div>
+      </span>
     );
   }
 }
