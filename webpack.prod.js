@@ -25,7 +25,7 @@ module.exports = (env) => ({
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: 'https://avraammavridis.github.io/yet-another-side-project/'
   },
   module: {
     loaders: [
