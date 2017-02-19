@@ -70,8 +70,8 @@ module.exports = (env) => ({
           to: path.join(__dirname, 'dist/manifest.webmanifest'),
         },
         {
-          from: path.join(__dirname, './favicon.ico'),
-          to: path.join(__dirname, 'dist/favicon.ico'),
+          from: path.join(__dirname, './assets/icons'),
+          to: path.join(__dirname, 'dist'),
         },
       ]),
       new HtmlWebpackPlugin({template: './index.html'}),
