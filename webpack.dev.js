@@ -25,7 +25,15 @@ module.exports = function (env) {
         {
           from: path.join(__dirname, 'src/sw.js'),
           to: path.join(__dirname, 'dist/sw.js'),
-        }
+        },
+        {
+          from: path.join(__dirname, './manifest.webmanifest'),
+          to: path.join(__dirname, 'dist/manifest.webmanifest'),
+        },
+        {
+          from: path.join(__dirname, './favicon.ico'),
+          to: path.join(__dirname, 'dist/favicon.ico'),
+        },
       ]),
       new HtmlWebpackPlugin({template: './index.html'}),
       new webpack.HotModuleReplacementPlugin(),

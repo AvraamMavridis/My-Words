@@ -4,11 +4,11 @@
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "webpack-dev-server --env=dev --progress --hot --profile --colors",
-    "start:prod": "webpack-dev-server --env=prod --progress --hot --profile --colors",
+    "start:dist": "webpack-dev-server --env=prod --progress --hot --profile --colors",
     "build:dev": "rm -rf dist && webpack --env=dev --progress",
     "build:dist": "rm -rf dist && webpack --env=prod --progress --profile --colors",
     "deploy": "npm run build:dist && npm run surge",
-    "surge": "surge -p dist --domain mywords.surge.sh",
+    "surge": "surge -p dist --domain https://mywords.surge.sh",
     "lint": "eslint src"
   },
   "repository": {

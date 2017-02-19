@@ -13,6 +13,7 @@ const combineLoaders = require('webpack-combine-loaders');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BabiliPlugin = new (require('babili-webpack-plugin'))();
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 
 module.exports = (env) => ({
@@ -58,11 +59,20 @@ module.exports = (env) => ({
     ]
   },
   plugins: [
+      new WriteFilePlugin(),
       new CopyWebpackPlugin([
         {
           from: path.join(__dirname, 'src/sw.js'),
           to: path.join(__dirname, 'dist/sw.js'),
-        }
+        },
+        {
+          from: path.join(__dirname, './manifest.webmanifest'),
+          to: path.join(__dirname, 'dist/manifest.webmanifest'),
+        },
+        {
+          from: path.join(__dirname, './favicon.ico'),
+          to: path.join(__dirname, 'dist/favicon.ico'),
+        },
       ]),
       new HtmlWebpackPlugin({template: './index.html'}),
       new webpack.HotModuleReplacementPlugin(),
