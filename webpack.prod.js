@@ -11,7 +11,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 var CommonChunksPlugin = new webpack.optimize.CommonsChunkPlugin({ names: ['vendor', 'manifest']});
 const combineLoaders = require('webpack-combine-loaders');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const OfflinePlugin = require('offline-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BabiliPlugin = new (require('babili-webpack-plugin'))();
 
@@ -24,8 +23,14 @@ module.exports = (env) => ({
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: 'https://avraammavridis.github.io/yet-another-side-project/'
+    filename: '[hash].bundle.js',
+    publicPath: './'
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 8081,
+    clientLogLevel: 'info'
   },
   module: {
     loaders: [
@@ -55,13 +60,13 @@ module.exports = (env) => ({
   plugins: [
       new CopyWebpackPlugin([
         {
-          from: path.join(__dirname, 'src/service.js'),
-          to: path.join(__dirname, 'dist/service.js'),
+          from: path.join(__dirname, 'src/sw.js'),
+          to: path.join(__dirname, 'dist/sw.js'),
         }
       ]),
       new HtmlWebpackPlugin({template: './index.html'}),
       new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true}),
+      new ExtractTextPlugin({filename: '[hash].app.css', disable: false, allChunks: true}),
       BabiliPlugin,
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',

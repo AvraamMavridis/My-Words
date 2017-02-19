@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import 'whatwg-fetch';
 
-
-// navigator.serviceWorker.register('/service.js').then(function(reg) {
-//   console.log('◕‿◕', reg);
-// }, function(err) {
-//   console.log('ಠ_ಠ', err);
-// });
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));

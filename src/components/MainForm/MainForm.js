@@ -63,9 +63,16 @@ export default class MainForm extends Component {
       wordsToTranslate.forEach((w,i) => {
         w.translation = data[i].text[0];
       })
+      // Translate pending words when the user goes online
       let newWords = this.state.words.filter(w => w.translation !== '-');
       newWords = newWords.concat(wordsToTranslate);
+      newWords = uniqBy(newWords, 'original');
       this.setState({ words: newWords });
+
+      // Save them to DB
+      let wordsToSave = this.state.words.filter(w => w.translation !== '-');
+      wordsToSave = uniqBy(wordsToSave.concat(newWords), 'original');
+      DBService.save({ words: wordsToSave, _id: 'words' });
     }
   }
 

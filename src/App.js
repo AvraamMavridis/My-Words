@@ -3,15 +3,17 @@ import MainForm from './components/MainForm/MainForm';
 import MyWords from './components/MyWords/MyWords';
 import { Router, Route, browserHistory } from 'react-router';
 import './App.scss';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 export default class App extends Component {
 
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route path="/" component={MainForm}></Route>
-        <Route path="/mywords" component={MyWords}/>
-      </Router>
+          <Router history={browserHistory}>
+            <Route path="/" component={MainForm}></Route>
+            <Route path="/mywords" component={MyWords}/>
+          </Router>
     );
   }
 }

@@ -43,8 +43,6 @@ class WordsTable extends Component {
       pageSize: this.state.pageSize > 0 ? this.state.pageSize : 1
     }
 
-    console.log(pagination);
-
     return (
       <div className={ styles.tableContainer }>
         <Table columns={columns} dataSource={words} pagination={ pagination } />
