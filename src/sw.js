@@ -1,4 +1,4 @@
-var CACHE_VERSION = 12;
+var CACHE_VERSION = 16;
 var CURRENT_CACHES = {
   prefetch: 'prefetch-cache-v' + CACHE_VERSION
 };
@@ -9,7 +9,8 @@ self.addEventListener('install', function(event) {
     caches.open(CURRENT_CACHES.prefetch)
       .then(function(cache) {
       return cache.addAll([
-        '/android-chrome-96x96.png',
+        '/android-chrome-192x192.png',
+        '/android-chrome-512x512.png',
         '/apple-touch-icon.png',
         '/browserconfig.xml',
         '/favicon-16x16.png',
