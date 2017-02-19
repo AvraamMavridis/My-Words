@@ -3,6 +3,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('mycache').then(function(cache) {
       return cache.addAll([
+        '/',
         '/dist/',
         '/dist/bundle.js',
         '/dist/app.css',
