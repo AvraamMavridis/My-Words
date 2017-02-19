@@ -1,9 +1,23 @@
+var CACHE_VERSION = 11;
+var CURRENT_CACHES = {
+  prefetch: 'prefetch-cache-v' + CACHE_VERSION
+};
+
 self.addEventListener('install', function(event) {
   // pre cache a load of stuff:
   event.waitUntil(
-    caches.open('mycache')
+    caches.open(CURRENT_CACHES.prefetch)
       .then(function(cache) {
       return cache.addAll([
+        '/android-chrome-96x96.png',
+        '/apple-touch-icon.png',
+        '/browserconfig.xml',
+        '/favicon-16x16.png',
+        '/favicon-32x32.png',
+        '/favicon.ico',
+        '/favicon.png',
+        '/mstile-150x150.png',
+        '/safari-pinned-tab.svg',
         '/'
       ])
       .catch(function(error){
@@ -13,6 +27,29 @@ self.addEventListener('install', function(event) {
     })
   )
 });
+
+
+self.addEventListener('activate', function(event) {
+  // Delete all caches that aren't named in CURRENT_CACHES.
+  var expectedCacheNames = Object.keys(CURRENT_CACHES).map(function(key) {
+    return CURRENT_CACHES[key];
+  });
+
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (expectedCacheNames.indexOf(cacheName) === -1) {
+            // If this cache name isn't present in the array of "expected" cache names, then delete it.
+            console.log('Deleting out of date cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
