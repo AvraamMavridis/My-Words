@@ -13,6 +13,10 @@ module.exports = [
         to: path.join(__dirname, 'dist/sw.js'),
       },
       {
+        from: path.join(__dirname, 'src/cachepolyfill.js'),
+        to: path.join(__dirname, 'dist/cachepolyfill.js'),
+      },
+      {
         from: path.join(__dirname, './manifest.webmanifest'),
         to: path.join(__dirname, 'dist/manifest.webmanifest'),
       },

@@ -1,4 +1,6 @@
-var CACHE_VERSION = 32;
+importScripts('./cachepolyfill.js');
+
+var CACHE_VERSION = 33;
 var CURRENT_CACHES = {
   prefetch: 'prefetch-cache-v' + CACHE_VERSION
 };
@@ -23,22 +25,26 @@ self.addEventListener('install', function(event) {
         '/app.css',
         '/bundle.js',
         '/index.html',
+        'sw.js',
+        'cachepolyfill.js',
         '/',
         /** Dev Mode */
-        '/dist/android-chrome-192x192.png',
-        '/dist/android-chrome-512x512.png',
-        '/dist/apple-touch-icon.png',
-        '/dist/browserconfig.xml',
-        '/dist/favicon-16x16.png',
-        '/dist/favicon-32x32.png',
-        '/dist/favicon.ico',
-        '/dist/favicon.png',
-        '/dist/mstile-150x150.png',
-        '/dist/safari-pinned-tab.svg',
-        '/dist/app.css',
-        '/dist/bundle.js',
-        '/dist/index.html',
-        '/dist/'
+        // '/dist/android-chrome-192x192.png',
+        // '/dist/android-chrome-512x512.png',
+        // '/dist/apple-touch-icon.png',
+        // '/dist/browserconfig.xml',
+        // '/dist/favicon-16x16.png',
+        // '/dist/favicon-32x32.png',
+        // '/dist/favicon.ico',
+        // '/dist/favicon.png',
+        // '/dist/mstile-150x150.png',
+        // '/dist/safari-pinned-tab.svg',
+        // '/dist/app.css',
+        // '/dist/bundle.js',
+        // '/dist/index.html',
+        // '/dist/sw.js',
+        // '/dist/cachepolyfill.js',
+        // '/dist/'
       ])
       .then(function(){
         console.log('Caches added');
