@@ -1,6 +1,6 @@
 importScripts('./cachepolyfill.js');
 
-var CACHE_VERSION = 33;
+var CACHE_VERSION = 35;
 var CURRENT_CACHES = {
   prefetch: 'prefetch-cache-v' + CACHE_VERSION
 };
