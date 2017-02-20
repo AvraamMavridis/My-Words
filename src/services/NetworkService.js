@@ -9,7 +9,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import isOnline from 'is-online';
 
 const options = {
-  hostnames: ['https://www.cloudflare.com']
+  hostnames: ['https://www.facebook.com']
 }
 const observable = Observable.interval(5000);
 export default observable.switchMap(() => Observable.fromPromise(isOnline(options)))

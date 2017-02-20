@@ -1,12 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+var plugins = require('./webpack.plugins');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const combineLoaders = require('webpack-combine-loaders');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
-
 
 module.exports = function (env) {
   return {
@@ -20,33 +15,9 @@ module.exports = function (env) {
       publicPath: '/dist/'
     },
     plugins: [
-      new WriteFilePlugin(),
-      new CopyWebpackPlugin([
-        {
-          from: path.join(__dirname, 'src/sw.js'),
-          to: path.join(__dirname, 'dist/sw.js'),
-        },
-        {
-          from: path.join(__dirname, './manifest.webmanifest'),
-          to: path.join(__dirname, 'dist/manifest.webmanifest'),
-        },
-        {
-          from: path.join(__dirname, './assets/icons'),
-          to: path.join(__dirname, 'dist'),
-        },
-      ]),
-      new HtmlWebpackPlugin({template: './index.html'}),
       new webpack.HotModuleReplacementPlugin(),
       new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true}),
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: 'webpack-report.html',
-        openAnalyzer: false,
-        generateStatsFile: true,
-        statsFilename: 'webpack-stats.json',
-        logLevel: 'info'
-      })
-    ],
+    ].concat(plugins),
     devServer: {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
