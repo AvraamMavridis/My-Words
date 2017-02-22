@@ -1,56 +1,82 @@
-import React, {Component, PropTypes} from 'react';
-import { Table, Icon } from 'antd';
-import styles from './WordsTable.scss';
+import React, { Component } from 'react';
 
-const columns = [{
-  title: 'Original',
-  dataIndex: 'original',
-  key: 'original',
-}, {
-  title: 'Translation',
-  dataIndex: 'translation',
-  key: 'translation',
-}];
+/**
+ * Table Component
+ *
+ * @class WordsTable
+ * @extends {Component}
+ */
+export default class WordsTable extends Component {
 
-class WordsTable extends Component {
-
-  constructor(){
+  /**
+   * Creates an instance of WordsTable.
+   *
+   * @memberOf WordsTable
+   */
+  constructor() {
     super();
     this.state = {
       defaultPageSize: Math.ceil((window.innerHeight - 300) / 50),
       pageSize: Math.ceil((window.innerHeight - 300) / 50)
-    }
+    };
     this.setPagination = this.setPagination.bind(this);
   }
 
-  setPagination(){
+  /**
+   * Sets the pagination based on the viewport height
+   *
+   *
+   * @memberOf WordsTable
+   */
+  setPagination() {
     this.setState({ pageSize: Math.ceil((window.innerHeight - 300) / 50) });
   }
 
+  /**
+   * Attach listeners when the component is mounted
+   *
+   * @memberOf WordsTable
+   */
   componentDidMount() {
     window.addEventListener('resize', this.setPagination);
   }
 
+  /**
+   * Removes listeners when the component unmount
+   *
+   * @memberOf WordsTable
+   */
   componentWillUnmount() {
     window.removeEventListener('resize', this.setPagination);
   }
 
+  /**
+   * Render WordTable component
+   *
+   * @returns {JSX}
+   *
+   * @memberOf WordsTable
+   */
   render() {
-    const words = this.props.words.map((word, i) => ({ ...word, key: i}));
-
-    const pagination = {
-      defaultPageSize: this.state.defaultPageSize,
-      pageSize: this.state.pageSize > 0 ? this.state.pageSize : 1
-    }
+    const words = this.props.words.map((word, i) => ({ ...word, key: i }));
 
     return (
-      <div className={ styles.tableContainer }>
-        <Table columns={columns} dataSource={words} pagination={ pagination } />
+      <div className="col-md-12">
+        <table className="col-md-12">
+          <tr>
+            <th>Original</th>
+            <th>Translation</th>
+          </tr>
+          { words.map(word => {
+            return (
+              <tr>
+                <td>{word.original}</td>
+                <td>{word.translation}</td>
+              </tr>
+            );
+          }) }
+        </table>
       </div>
     );
   }
 }
-
-
-
-export default WordsTable;

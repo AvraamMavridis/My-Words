@@ -14,9 +14,12 @@
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
-    "no-trailing-spaces": 2
+    "react/prop-types": 0,
+    "no-trailing-spaces": 2,
+    "no-confusing-arrow": 0
   },
   "plugins": [
     "react"
-  ]
+  ],
+  "extends": "mycs"
 }

@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import 'whatwg-fetch';
+import App from './App';
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(registration => {
-      registration.update()
-    })
-    .catch(error => {
-      console.error('Error in service worker registration', error);
-    })
-}
+(async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('sw.js');
+      registration.update();
+    } catch (error) {
+      throw Error('Error in service worker registration', error);
+    }
+  }
+})();
 
 ReactDOM.render(<App />, document.getElementById('root'));

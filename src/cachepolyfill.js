@@ -15,7 +15,7 @@
  *
  */
 
-(function() {
+(function () {
   var nativeAddAll = Cache.prototype.addAll;
   var userAgent = navigator.userAgent.match(/(Firefox|Chrome)\/(\d+\.)/);
 
@@ -28,7 +28,7 @@
   if (
     nativeAddAll && (!userAgent ||
       (agent === 'Firefox' && version >= 46) ||
-      (agent === 'Chrome'  && version >= 50)
+      (agent === 'Chrome' && version >= 50)
     )
   ) {
     return;
@@ -46,23 +46,22 @@
 
     NetworkError.prototype = Object.create(Error.prototype);
 
-    return Promise.resolve().then(function() {
+    return Promise.resolve().then(function () {
       if (arguments.length < 1) throw new TypeError();
 
       // Simulate sequence<(Request or USVString)> binding:
       var sequence = [];
 
-      requests = requests.map(function(request) {
+      requests = requests.map((request) => {
         if (request instanceof Request) {
           return request;
-        }
-        else {
+        } else {
           return String(request); // may throw TypeError
         }
       });
 
       return Promise.all(
-        requests.map(function(request) {
+        requests.map((request) => {
           if (typeof request === 'string') {
             request = new Request(request);
           }
@@ -70,16 +69,16 @@
           var scheme = new URL(request.url).protocol;
 
           if (scheme !== 'http:' && scheme !== 'https:') {
-            throw new NetworkError("Invalid scheme");
+            throw new NetworkError('Invalid scheme');
           }
 
           return fetch(request.clone());
         })
       );
-    }).then(function(responses) {
+    }).then((responses) => {
       // If some of the responses has not OK-eish status,
       // then whole operation should reject
-      if (responses.some(function(response) {
+      if (responses.some((response) => {
         return !response.ok;
       })) {
         throw new NetworkError('Incorrect response status');
@@ -88,16 +87,16 @@
       // TODO: check that requests don't overwrite one another
       // (don't think this is possible to polyfill due to opaque responses)
       return Promise.all(
-        responses.map(function(response, i) {
+        responses.map((response, i) => {
           return cache.put(requests[i], response);
         })
       );
-    }).then(function() {
+    }).then(() => {
       return undefined;
     });
   };
 
   Cache.prototype.add = function add(request) {
-    return this.addAll([request]);
+    return this.addAll([ request ]);
   };
 }());

@@ -1,23 +1,44 @@
-import PouchDB from 'pouchdb';
-const db = new PouchDB('translations');
+import store from 'store';
 
+/**
+ * DB/LocalStorage Service
+ *
+ * @export
+ * @class DBService
+ */
 export default class DBService {
-  static async save(doc){
+  /**
+   * Save docs
+   *
+   * @static
+   * @param {object} doc
+   * @returns {promise}
+   *
+   * @memberOf DBService
+   */
+  static async save(doc) {
     try {
-      const words = await db.get('words');
-      return await db.put({ ...doc, _rev: words._rev });
+      store.set('words', doc);
+      return Promise.resolve({ words: doc });
     } catch (error) {
-      if(error.status === 404 && error.message === 'missing'){
-        return await db.put(doc);
-      }
+      return Promise.reject(error);
     }
   }
 
-  static async get(){
+  /**
+   * Return document
+   *
+   * @static
+   * @returns {promise}
+   *
+   * @memberOf DBService
+   */
+  static async get() {
     try {
-      return await db.get('words');
+      const words = store.get('words');
+      return Promise.resolve({ words: words || [] });
     } catch (error) {
-      return { words: []};
+      return Promise.reject(error);
     }
   }
 }

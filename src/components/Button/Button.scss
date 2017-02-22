@@ -1,0 +1,15 @@
+@import '../../sass/palette.scss';
+
+.button {
+  background: $hard-pink;
+  color: $white;
+  border: none;
+  border-radius: 2px;
+  padding: 10px 30px;
+  outline: none !important;
+  cursor: pointer;
+
+  &:hover {
+    background: $shadow-pink;
+  }
+}

@@ -8,6 +8,7 @@
   align-items: center;
   flex-wrap: wrap;
   flex-direction: column;
+  padding: 20px;
 }
 
 .form {
@@ -35,11 +36,11 @@
     font-size: 26px;
 
     &:hover, &:focus {
-      border-color: $shadow-ping;
+      border-color: $shadow-pink;
     }
 
     &:focus {
-      outline-color: $shadow-ping;
+      outline-color: $shadow-pink;
       box-shadow: none !important;
     }
   }

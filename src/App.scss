@@ -1,5 +1,29 @@
 @import 'sass/palette.scss';
 
-body{
-  background-color: $pink;
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background-color: $grey !important;
+}
+
+:global(.col-md-12) {
+  padding: 0px !important;
+}
+
+table {
+  font-size: 16px;
+}
+
+th{
+  background: $hard-pink;
+  color: $white;
+}
+
+td{
+  border: 1px solid $hard-pink;
+  color: $white;
 }

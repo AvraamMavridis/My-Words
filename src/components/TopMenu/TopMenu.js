@@ -1,41 +1,41 @@
-import React, {Component} from 'react';
-import { Menu, Icon } from 'antd';
-import { Link } from 'react-router'
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 import styles from './TopMenu.scss';
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 
-
+/**
+ * Top Navigation Menu
+ *
+ * @class TopMenu
+ * @extends {Component}
+ */
 class TopMenu extends Component {
 
-  constructor(){
-    super();
-    this.onClickHandler = this.onClickHandler.bind(this);
-    this.state = {
-      current: 'mail'
-    }
-  }
-
-  onClickHandler(e){
-    this.setState({ current: e.key });
-  }
-
+  /**
+   * Render the Top Menu
+   *
+   * @returns
+   *
+   * @memberOf TopMenu
+   */
   render() {
+    const current = window.location.pathname;
+
     return (
-      <Menu
+      <div
         className={ styles.topmenu }
-        onClick={this.onClickHandler}
-        selectedKeys={[this.state.current]}
-        mode="horizontal"
-      >
-        <Menu.Item key="home">
-          <Icon type="home" /><Link to={'/'}>Home</Link>
-        </Menu.Item>
-        <Menu.Item key="book">
-          <Icon type="book" />
-          <Link to={'/mywords'}>Words</Link>
-        </Menu.Item>
-      </Menu>
+        selectedKeys={ [ this.state.current ] }
+        mode="horizontal">
+        <Link to={ '/' }>
+          <div className={ `${ styles.linkContainer } ${ current === '/' ? styles.selected : '' }` }>
+            Home
+          </div>
+        </Link>
+        <Link to={ '/mywords' }>
+          <div className={ `${ styles.linkContainer } ${ current === '/mywords' ? styles.selected : '' }` }>
+            Saved Words
+          </div>
+        </Link>
+      </div>
     );
   }
 }

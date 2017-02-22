@@ -2,24 +2,33 @@
 
 .topmenu {
     border: 0;
-    border-bottom: 1px solid $yello;
+    border-bottom: 1px solid $hard-pink;
     box-shadow: none;
     height: 64px;
     z-index: 0;
-    box-shadow: 0px 7px 5px 0px $shadow-ping;
-    background: $yello;
+    background: $hard-pink;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    li{
-      height: 64px;
-      line-height: 64px;
-      color: $green !important;
+    .linkContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      height: 100%;
+
+      &:hover {
+        background-color: $shadow-pink;
+      }
+    }
+
+    .selected {
+      border-bottom: 1px solid $grey;
     }
 
     a {
-      float: right;
-      display: block;
+      color: #fffffa;
+      text-decoration: none !important;
     }
 };
