@@ -7,7 +7,7 @@ var DefinePlugin = new webpack.DefinePlugin({
     NODE_ENV: JSON.stringify('production'),
   },
 });
-var CommonChunksPlugin = new webpack.optimize.CommonsChunkPlugin({ names: ['vendor', 'manifest']});
+var CommonChunksPlugin = new webpack.optimize.CommonsChunkPlugin({ names: [ 'vendor', 'manifest' ] });
 const BabiliPlugin = new (require('babili-webpack-plugin'))();
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -36,7 +36,7 @@ module.exports = (env) => ({
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015']
+          presets: [ 'react', 'es2015' ]
         }
       },
       {
@@ -55,13 +55,13 @@ module.exports = (env) => ({
     ]
   },
   plugins: plugins.concat([
-      DefinePlugin,
-      new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true}),
-      BabiliPlugin,
+    DefinePlugin,
+    new ExtractTextPlugin({ filename: 'app.css', disable: false, allChunks: true }),
+    BabiliPlugin,
   ]),
-  'resolve': {
-    'alias': {
-      'react': 'preact-compat',
+  resolve: {
+    alias: {
+      react: 'preact-compat',
       'react-dom': 'preact-compat'
     }
   }

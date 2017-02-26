@@ -24,12 +24,12 @@ self.addEventListener('install', (event) => {
             '/favicon.png',
             '/mstile-150x150.png',
             '/safari-pinned-tab.svg',
-            '/app.css',
             '/bundle.js',
             '/index.html',
             'sw.js',
             'cachepolyfill.js',
             '/',
+            'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap-grid.min.css'
           /** Dev Mode */
           // '/dist/android-chrome-192x192.png',
           // '/dist/android-chrome-512x512.png',

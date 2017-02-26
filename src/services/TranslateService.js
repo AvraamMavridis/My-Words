@@ -1,3 +1,4 @@
+import fetch from 'unfetch';
 /**
  * Service Responsible for the translation
  *

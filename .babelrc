@@ -1,21 +1,11 @@
 {
-    "sourceMaps": true,
-    "presets": [
-        "es2015",
-        "stage-0",
-        "react"
-    ],
-    "plugins": [
-        [
-          "import",
-          {
-            "libraryName": "antd",
-            "style": "css"
-          }
-        ],
-    ["transform-runtime", {
-      "polyfill": true,
-      "regenerator": true
+  "presets": [
+    "react",
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 versions", "safari >= 7"]
+      }
     }]
-    ]
+  ],
+  "plugins": ["transform-object-rest-spread"]
 }
