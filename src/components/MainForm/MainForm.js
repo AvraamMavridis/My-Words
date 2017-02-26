@@ -7,6 +7,8 @@ import WordsTable from '../WordsTable/WordsTable';
 import NetworkService from '../../services/NetworkService';
 import TopMenu from '../TopMenu/TopMenu';
 import styles from './MainForm.scss';
+import grid from '../../sass/grid.scss';
+
 
 /**
  * Main Form Component
@@ -153,7 +155,7 @@ export default class MainForm extends Component {
    */
   render() {
     return (
-      <div className="col-md-12">
+      <div className={ grid['col-md-12'] }>
         <TopMenu />
         <div className={ styles.mainContainer }>
           <div className={ styles.form } action="">

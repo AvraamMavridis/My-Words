@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import grid from '../../sass/grid.scss';
 
 /**
  * Table Component
@@ -61,8 +62,8 @@ export default class WordsTable extends Component {
     const words = this.props.words.map((word, i) => ({ ...word, key: i }));
 
     return (
-      <div className="col-md-12">
-        <table className="col-md-12">
+      <div className={ grid['col-md-12'] }>
+        <table className={ grid['col-md-12'] }>
           <tr>
             <th>Original</th>
             <th>Translation</th>
