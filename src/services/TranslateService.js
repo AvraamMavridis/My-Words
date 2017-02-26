@@ -1,4 +1,3 @@
-import fetch from 'unfetch';
 /**
  * Service Responsible for the translation
  *
@@ -21,11 +20,8 @@ export default class TranslateService {
     const lang = 'en-el';
     const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${ key }&text=${ word }&lang=${ lang }`;
 
-    const myHeaders = new Headers();
-
     const options = {
       method: 'GET',
-      headers: myHeaders,
       mode: 'cors',
       cache: 'default'
     };

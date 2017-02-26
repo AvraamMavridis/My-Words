@@ -14,7 +14,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => ({
   entry: [
-    'babel-core/register',
+    'whatwg-fetch',
     'babel-polyfill',
     './src/index'
   ],

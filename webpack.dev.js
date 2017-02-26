@@ -7,6 +7,7 @@ module.exports = function (env) {
   return {
     devtool: 'source-map',
     entry: [
+      'whatwg-fetch',
       'babel-polyfill',
        './src/index'
     ],
