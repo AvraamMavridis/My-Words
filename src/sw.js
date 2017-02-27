@@ -54,11 +54,12 @@ self.addEventListener('activate', (event) => {
       .then(() => {
         caches.keys().then((cacheNames) => {
           return Promise.all(
-            cacheNames.forEach((cacheName) => {
+            cacheNames.map((cacheName) => {
               if (expectedCacheNames.indexOf(cacheName) === -1) {
                 // If this cache name isn't present in the array of "expected" cache names, then delete it.
                 return caches.delete(cacheName);
               }
+              return cacheName;
             })
           );
         });
