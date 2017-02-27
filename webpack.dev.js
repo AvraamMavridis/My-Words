@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var plugins = require('./webpack.plugins');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function (env) {
   return {
@@ -9,8 +8,11 @@ module.exports = function (env) {
     entry: [
       'whatwg-fetch',
       'babel-polyfill',
-       './src/index'
+      './src/index'
     ],
+    performance: {
+      hints: 'warning'
+    },
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'bundle.js',
@@ -18,7 +20,6 @@ module.exports = function (env) {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin({filename: 'app.css', disable: false, allChunks: true}),
     ].concat(plugins),
     devServer: {
       contentBase: path.join(__dirname, 'dist'),
@@ -42,13 +43,6 @@ module.exports = function (env) {
           ],
           include: path.join(__dirname, 'src')
         }, {
-          test: /\.css$/,
-          loader: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64' +
-                ':5]'
-          })
-        }, {
           test: /\.scss$/,
           loader: 'style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]_' +
               '_[local]___[hash:base64:5]!sass-loader'
@@ -64,11 +58,11 @@ module.exports = function (env) {
         }
       ]
     },
-    'resolve': {
-      'alias': {
-        'react': 'preact-compat',
+    resolve: {
+      alias: {
+        react: 'preact-compat',
         'react-dom': 'preact-compat'
       }
     }
-  }
+  };
 };

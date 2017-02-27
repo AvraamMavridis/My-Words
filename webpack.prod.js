@@ -9,7 +9,6 @@ var DefinePlugin = new webpack.DefinePlugin({
 });
 var CommonChunksPlugin = new webpack.optimize.CommonsChunkPlugin({ names: [ 'vendor', 'manifest' ] });
 const BabiliPlugin = new (require('babili-webpack-plugin'))();
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = (env) => ({
@@ -40,14 +39,6 @@ module.exports = (env) => ({
         }
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64' +
-              ':5]'
-        }),
-      },
-      {
         test: /\.scss$/,
         loader: 'style-loader?sourceMap!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64' +
               ':5]!sass-loader',
@@ -56,7 +47,6 @@ module.exports = (env) => ({
   },
   plugins: plugins.concat([
     DefinePlugin,
-    new ExtractTextPlugin({ filename: 'app.css', disable: false, allChunks: true }),
     BabiliPlugin,
   ]),
   resolve: {
