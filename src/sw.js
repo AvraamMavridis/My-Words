@@ -1,12 +1,11 @@
 importScripts('./cachepolyfill.js');
 
-var CACHE_VERSION = 80;
+var CACHE_VERSION = 90;
 var CURRENT_CACHES = {
   prefetch: `prefetch-cache-v${ CACHE_VERSION }`
 };
 
 self.addEventListener('install', (event) => {
-  console.log('Service Worker Install...');
   // pre cache a load of stuff:
   event.waitUntil(
     self.skipWaiting()
@@ -30,30 +29,13 @@ self.addEventListener('install', (event) => {
             'cachepolyfill.js',
             '/',
             'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap-grid.min.css'
-          /** Dev Mode */
-          // '/dist/android-chrome-192x192.png',
-          // '/dist/android-chrome-512x512.png',
-          // '/dist/apple-touch-icon.png',
-          // '/dist/browserconfig.xml',
-          // '/dist/favicon-16x16.png',
-          // '/dist/favicon-32x32.png',
-          // '/dist/favicon.ico',
-          // '/dist/favicon.png',
-          // '/dist/mstile-150x150.png',
-          // '/dist/safari-pinned-tab.svg',
-          // '/dist/app.css',
-          // '/dist/bundle.js',
-          // '/dist/index.html',
-          // '/dist/sw.js',
-          // '/dist/cachepolyfill.js',
-          // '/dist/'
           ])
         .then(() => {
-          console.log('Caches added');
+          console.log('Caches added'); // eslint-disable-line
         })
         .catch((error) => {
-          console.error('Error on installing');
-          console.error(error);
+          console.error('Error on installing'); // eslint-disable-line
+          console.error(error); // eslint-disable-line
         });
         });
     })
@@ -62,7 +44,6 @@ self.addEventListener('install', (event) => {
 
 
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker Activate...');
   // Delete all caches that aren't named in CURRENT_CACHES.
   var expectedCacheNames = Object.keys(CURRENT_CACHES).map((key) => {
     return CURRENT_CACHES[key];
@@ -73,11 +54,9 @@ self.addEventListener('activate', (event) => {
       .then(() => {
         caches.keys().then((cacheNames) => {
           return Promise.all(
-            cacheNames.map((cacheName) => {
-              console.log('Cache name: ', cacheName);
+            cacheNames.forEach((cacheName) => {
               if (expectedCacheNames.indexOf(cacheName) === -1) {
                 // If this cache name isn't present in the array of "expected" cache names, then delete it.
-                console.log('Deleting out of date cache:', cacheName);
                 return caches.delete(cacheName);
               }
             })
@@ -89,7 +68,6 @@ self.addEventListener('activate', (event) => {
 
 
 self.addEventListener('fetch', (event) => {
-  console.log('Service Worker Fetch...');
 
   event.respondWith(
     caches.match(event.request)
@@ -98,14 +76,13 @@ self.addEventListener('fetch', (event) => {
           return fetch(event.request);
         }
         if (response) {
-          console.log('Serve from cache', response);
           return response;
         }
         return fetch(event.request);
       })
     .catch((error) => {
-      console.error('Error on fetching');
-      console.error(error);
+      console.error('Error on fetching'); // eslint-disable-line
+      console.error(error); // eslint-disable-line
     })
   );
 });
